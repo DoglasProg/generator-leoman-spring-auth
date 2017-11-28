@@ -6,208 +6,236 @@ var mkdirp = require('mkdirp');
 
 
 module.exports = Generator.extend({
-  prompting: function () {
-    // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the solid ' + chalk.red('generator-leoman-spring-auth') + ' generator!'
-    ));
+    prompting: function() {
 
-    var prompts = [{
-      type: 'input',
-      name: 'projectName',
-      message: 'Project Name?',
-      default: 'ProjectName'
-    }, {
-      type: 'input',
-      name: 'packageName',
-      message: 'Package Name?',
-      default: 'com.project'
-    }];
+        //Cumprimenta ao usuário.
+        this.log(yosay(
+            'Bem-vindo ao ' + chalk.red('generator-leoman-spring-auth') + ' gerador!'
+        ));
 
-    return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
-    }.bind(this));
-  },
+        var prompts = [{
+            type: 'input',
+            name: 'projectName',
+            message: 'Nome do Projeto?',
+            default: 'ProjectName'
+        }, {
+            type: 'input',
+            name: 'packageName',
+            message: 'Nome do Pacote?',
+            default: 'com.project'
+        }];
 
-  writing: function () {
+        return this.prompt(prompts).then(function(props) {
+            // Para acessar props use this.props.someAnswer;
+            this.props = props;
+        }.bind(this));
+    },
 
-    var packagePath = this.props.packageName.replace(/\./g, '/');
+    writing: function() {
 
-    // root project files
+        var packagePath = this.props.packageName.replace(/\./g, '/');
 
-    
-    this.fs.copy(
-      this.templatePath('.gitignore'),
-      this.destinationPath(this.props.projectName + '/.gitignore')
-    );
-    
-
-    this.fs.copy(
-      this.templatePath('mvnw'),
-      this.destinationPath(this.props.projectName + '/mvnw')
-    );
-
-    this.fs.copy(
-      this.templatePath('mvnw.cmd'),
-      this.destinationPath(this.props.projectName + '/mvnw.cmd')
-    );
-
-    this.fs.copy(
-      this.templatePath('pom.xml'),
-      this.destinationPath(this.props.projectName + '/pom.xml')
-    );
+        // Arquivos root do projeto
 
 
-    //java files
-    var options = { packageName: this.props.packageName, projectName: this.props.projectName };
-
-	this.fs.copyTpl(
-      this.templatePath('src/main/java/_App.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
-      options      
-    );
-	
-	// config - carga inicial
-	this.fs.copyTpl(
-      this.templatePath('src/main/java/config/_InitialCharge.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/InitialCharge.java'),
-      options
-    );
-	
-	// config - configuracao auth2
-	this.fs.copyTpl(
-      this.templatePath('src/main/java/config/_OAuth2ServerConfiguration.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/OAuth2ServerConfiguration.java'),
-      options
-    );
-	
-	// config - configuracao web security
-	this.fs.copyTpl(
-      this.templatePath('src/main/java/config/_WebSecurityConfiguration.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/WebSecurityConfiguration.java'),
-      options
-    );
-	
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/admin/_AdminRestController.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/admin/AdminRestController.java'),
-      options
-    );
-	
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/config/_WebSecurityConfig.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/config/WebSecurityConfig.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/controller/_AuthenticationRestController.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/controller/AuthenticationRestController.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/controller/_UserRestController.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/controller/UserRestController.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/model/_Authority.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/model/Authority.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/model/_AuthorityName.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/model/AuthorityName.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/model/_User.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/model/User.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/repository/_UserRepository.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/repository/UserRepository.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/service/_JwtAuthenticationResponse.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/service/JwtAuthenticationResponse.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/service/_JwtUserDetailsServiceImpl.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/service/JwtUserDetailsServiceImpl.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtAuthenticationEntryPoint.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtAuthenticationEntryPoint.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtAuthenticationRequest.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtAuthenticationRequest.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtAuthenticationTokenFilter.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtAuthenticationTokenFilter.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtTokenUtil.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtTokenUtil.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtUser.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtUser.java'),
-      options
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('src/main/java/security/_JwtUserFactory.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/security/JwtUserFactory.java'),
-      options
-    );
+        this.fs.copy(
+            this.templatePath('.gitignore'),
+            this.destinationPath(this.props.projectName + '/.gitignore')
+        );
 
 
-    //resource files
+        this.fs.copy(
+            this.templatePath('mvnw'),
+            this.destinationPath(this.props.projectName + '/mvnw')
+        );
 
-    this.fs.copyTpl(
-      this.templatePath('src/main/resources/'),
-      this.destinationPath(this.props.projectName + '/src/main/resources/'),
-      options
-    );
+        this.fs.copy(
+            this.templatePath('mvnw.cmd'),
+            this.destinationPath(this.props.projectName + '/mvnw.cmd')
+        );
 
-    mkdirp.sync(this.props.projectName + '/src/main/resources/static/');
-    mkdirp.sync(this.props.projectName + '/src/main/resources/templates/');
-
-    //test files
-
-    this.fs.copyTpl(
-      this.templatePath('src/test/java/_ApplicationTests.java'),
-      this.destinationPath(this.props.projectName + '/src/test/java/' + packagePath + '/' + this.props.projectName + 'ApplicationTests.java'),
-      options
-    );
-    
+        this.fs.copy(
+            this.templatePath('pom.xml'),
+            this.destinationPath(this.props.projectName + '/pom.xml')
+        );
 
 
-  },
+        //java files
+        var options = { packageName: this.props.packageName, projectName: this.props.projectName };
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/_App.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
+            options
+        );
+
+        // config - carga inicial
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/config/_InitialCharge.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/InitialCharge.java'),
+            options
+        );
+
+        // config - configuracao auth2
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/config/_OAuth2ServerConfiguration.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/OAuth2ServerConfiguration.java'),
+            options
+        );
+
+        // config - configuracao web security
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/config/_WebSecurityConfiguration.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/WebSecurityConfiguration.java'),
+            options
+        );
+
+        // controller - configuracao IndexController
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/controller/_IndexController.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/controller/IndexController.java'),
+            options
+        );
+
+        // controller - configuracao RoleController
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/controller/_RoleController.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/controller/RoleController.java'),
+            options
+        );
+
+        // controller - configuracao UserController
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/controller/_UserController.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/controller/UserController.java'),
+            options
+        );
+
+
+        // entity - configuracao EntityGeneric
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/entity/_EntityGeneric.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/entity/EntityGeneric.java'),
+            options
+        );
+
+        // entity - configuracao RoleAccess
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/entity/_RoleAccess.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/entity/RoleAccess.java'),
+            options
+        );
+
+
+        // entity - configuracao UserAccess
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/entity/_UserAccess.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/entity/UserAccess.java'),
+            options
+        );
+
+
+        // repository - configuracao Repository
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/repository/_Repository.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/Repository.java'),
+            options
+        );
+
+        // repository - configuracao RoleRepository
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/repository/_RoleRepository.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/RoleRepository.java'),
+            options
+        );
+
+        // repository - configuracao UserRepository
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/repository/_UserRepository.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/UserRepository.java'),
+            options
+        );
+
+        // service - configuracao MyUserDetailsService
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/service/_MyUserDetailsService.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/MyUserDetailsService.java'),
+            options
+        );
+
+        // service - configuracao RoleService
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/service/_RoleService.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/RoleService.java'),
+            options
+        );
+
+        // service - configuracao Service
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/service/_Service.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/Service.java'),
+            options
+        );
+
+        // service - configuracao UserService
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/java/service/_UserService.java'),
+            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/UserService.java'),
+            options
+        );
+
+        //resource files
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/resources/'),
+            this.destinationPath(this.props.projectName + '/src/main/resources/'),
+            options
+        );
+
+        // resources - configuracao application.properties
+
+        this.fs.copyTpl(
+            this.templatePath('src/main/resources/application.properties'),
+            this.destinationPath(this.props.projectName + '/src/main/resources/' + packagePath + '/resources/application.properties'),
+            options
+        );
+
+        mkdirp.sync(this.props.projectName + '/src/main/resources/static/');
+        mkdirp.sync(this.props.projectName + '/src/main/resources/templates/');
+
+
+        //webapp
+
+        // this.fs.copyTpl(
+        //     this.templatePath('src/main/webapp/'),
+        //     this.destinationPath(this.props.projectName + '/src/main/webapp/'),
+        //     options
+        // );
+
+        //test files
+
+        // this.fs.copyTpl(
+        //     this.templatePath('src/main/test/'),
+        //     this.destinationPath(this.props.projectName + '/src/main/test/'),
+        //     options
+        // );
+
+
+
+    },
 
 
 });
