@@ -10,7 +10,7 @@ module.exports = Generator.extend({
 
         //Cumprimenta ao usuário.
         this.log(yosay(
-            'Bem-vindo ao ' + chalk.red('L') +  chalk.green('E') + 'OMAN - O gerador de código Java Spring + MongoDB ou PostGres com Autenticacao - Desenvolvido por: ' + chalk.red('L') + 'eydson Tavares e '+ chalk.green('E') + 'merson Cantalice - UNIFACISA!'
+            'Bem-vindo ao ' + chalk.red('L') +  chalk.green('E') + 'OMAN - O gerador de código Java com Spring + MongoDB ou Postgres + Autenticacao - Desenvolvido por: ' + chalk.red('L') + 'eydson Tavares e '+ chalk.green('E') + 'merson Cantalice - ' + chalk.blue('UNIFACISA!')
         ));
 
         var prompts = [{
