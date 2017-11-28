@@ -9,7 +9,7 @@ module.exports = Generator.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the solid ' + chalk.red('leoman-generator-spring-auth2') + ' generator!'
+      'Welcome to the solid ' + chalk.red('generator-leoman-spring-auth') + ' generator!'
     ));
 
     var prompts = [{
@@ -64,7 +64,7 @@ module.exports = Generator.extend({
 
 	this.fs.copyTpl(
       this.templatePath('src/main/java/_App.java'),
-      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'Application.java'),
+      this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
       options      
     );
 	

@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import entity.RoleAccess;
-import entity.UserAccess;
-import repository.RoleRepository;
-import repository.UserRepository;
+import <%= packageName %>.entity.RoleAccess;
+import <%= packageName %>.entity.UserAccess;
+import <%= packageName %>.repository.RoleRepository;
+import <%= packageName %>.repository.UserRepository;
 
 
 @Component

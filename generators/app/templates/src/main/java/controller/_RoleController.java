@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import <%= packageName %>entity.RoleAccess;
+import <%= packageName %>.entity.RoleAccess;
 import <%= packageName %>.service.RoleService;
 
 @RestController
