@@ -150,11 +150,11 @@ module.exports = Generator.extend({
 
         // repository - configuracao Repository
 
-        this.fs.copyTpl(
-            this.templatePath('src/main/java/repository/_Repository.java'),
-            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/Repository.java'),
-            options
-        );
+        //this.fs.copyTpl(
+          //  this.templatePath('src/main/java/repository/_Repository.java'),
+          //  this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/Repository.java'),
+           // options
+        //);
 
         // repository - configuracao RoleRepository
 
@@ -190,11 +190,11 @@ module.exports = Generator.extend({
 
         // service - configuracao Service
 
-        this.fs.copyTpl(
-            this.templatePath('src/main/java/service/_Service.java'),
-            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/Service.java'),
-            options
-        );
+        //this.fs.copyTpl(
+          //  this.templatePath('src/main/java/service/_Service.java'),
+           // this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/Service.java'),
+           // options
+        //);
 
         // service - configuracao UserService
 
