@@ -10,7 +10,7 @@ module.exports = Generator.extend({
 
         //Cumprimenta ao usuário.
         this.log(yosay(
-            'Bem-vindo ao ' + chalk.red('generator-leoman-spring-auth') + ' gerador! Unifacisa!'
+            'Bem-vindo ao ' + chalk.red('L') +  chalk.green('E') + 'OMAN - O gerador de código Java Spring + MongoDB ou PostGres com Autenticacao - Desenvolvido por: ' + chalk.red('L') + 'eydson Tavares e '+ chalk.green('E') + 'merson Cantalice - UNIFACISA!'
         ));
 
         var prompts = [{
@@ -24,9 +24,15 @@ module.exports = Generator.extend({
             message: 'Nome do Pacote?',
             default: 'com.project'
         }, {
+            type: 'list',
+            name: 'database',
+            message: 'Qual banco de dados deseja usar?',
+            choices: [ "MongoDB", "Postgres" ],
+            default: 'MongoDB'
+        }, {
             type: 'input',
             name: 'nameDatabase',
-            message: 'Qual o nome do banco de dados?',
+            message: 'Qual o nome do schema do banco de dados?',
             default: 'teste'
         }];
 
@@ -41,8 +47,6 @@ module.exports = Generator.extend({
         var packagePath = this.props.packageName.replace(/\./g, '/');
 
         // Arquivos root do projeto
-
-
         this.fs.copy(
             this.templatePath('.gitignore'),
             this.destinationPath(this.props.projectName + '/.gitignore')
@@ -67,8 +71,9 @@ module.exports = Generator.extend({
 
         //java files
         var options = { packageName: this.props.packageName,
-                        projectName: this.props.projectName, 
-                        nameDatabase: this.props.nameDatabase};
+                        projectName: this.props.projectName,
+                        nameDatabase: this.props.nameDatabase,
+                        database: this.props.database};
 
         this.fs.copyTpl(
             this.templatePath('src/main/java/_App.java'),
@@ -138,7 +143,6 @@ module.exports = Generator.extend({
             options
         );
 
-
         // entity - configuracao UserAccess
 
         this.fs.copyTpl(
@@ -156,21 +160,35 @@ module.exports = Generator.extend({
            // options
         //);
 
-        // repository - configuracao RoleRepository
+        if (this.props.database == "MongoDB") {
+            // repository - configuracao RoleRepository
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/repository/_RoleRepository.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/RoleRepository.java'),
+                options
+            );
+            
+            // repository - configuracao UserRepository
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/repository/_UserRepository.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/UserRepository.java'),
+                options
+            );
+        } else {
+            // repository - configuracao RoleRepository
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/repository/__RoleRepository.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/RoleRepository.java'),
+                options
+            );
 
-        this.fs.copyTpl(
-            this.templatePath('src/main/java/repository/_RoleRepository.java'),
-            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/RoleRepository.java'),
-            options
-        );
-
-        // repository - configuracao UserRepository
-
-        this.fs.copyTpl(
-            this.templatePath('src/main/java/repository/_UserRepository.java'),
-            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/UserRepository.java'),
-            options
-        );
+            // repository - configuracao UserRepository
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/repository/__UserRepository.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/UserRepository.java'),
+                options
+            );
+        }
 
         // service - configuracao MyUserDetailsService
 
@@ -212,13 +230,22 @@ module.exports = Generator.extend({
             options
         );
 
-        // resources - configuracao application.properties
 
-        this.fs.copyTpl(
-            this.templatePath('src/main/resources/application.properties'),
-            this.destinationPath(this.props.projectName + '/src/main/resources/' + packagePath + '/resources/application.properties'),
-            options
-        );
+        if (this.props.database == "MongoDB") {
+            // resources - configuracao application.properties
+            this.fs.copyTpl(
+                this.templatePath('src/main/resources/application.properties'),
+                this.destinationPath(this.props.projectName + '/src/main/resources/' + packagePath + '/resources/application.properties'),
+                options
+            );
+        } else {
+            // resources - configuracao application.properties
+            this.fs.copyTpl(
+                this.templatePath('src/main/resources/_application.properties'),
+                this.destinationPath(this.props.projectName + '/src/main/resources/' + packagePath + '/resources/application.properties'),
+                options
+            );
+        }
 
         mkdirp.sync(this.props.projectName + '/src/main/resources/static/');
         mkdirp.sync(this.props.projectName + '/src/main/resources/templates/');
