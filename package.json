@@ -22,7 +22,9 @@
     "security",
     "spring security",
     "restul",
-    "yeoman-generator"
+    "yeoman-generator",
+	"mongo",
+	"postgres"
   ],
   "dependencies": {
     "yeoman-generator": "^1.0.0",
