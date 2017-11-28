@@ -1,4 +1,3 @@
-package service;
 package <%= packageName %>.service;
 
 import java.util.List;

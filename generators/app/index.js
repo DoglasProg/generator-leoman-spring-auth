@@ -10,7 +10,7 @@ module.exports = Generator.extend({
 
         //Cumprimenta ao usuário.
         this.log(yosay(
-            'Bem-vindo ao ' + chalk.red('generator-leoman-spring-auth') + ' gerador!'
+            'Bem-vindo ao ' + chalk.red('generator-leoman-spring-auth') + ' gerador! Unifacisa!'
         ));
 
         var prompts = [{
@@ -23,6 +23,11 @@ module.exports = Generator.extend({
             name: 'packageName',
             message: 'Nome do Pacote?',
             default: 'com.project'
+        }, {
+            type: 'input',
+            name: 'nameDatabase',
+            message: 'Qual o nome do banco de dados?',
+            default: 'teste'
         }];
 
         return this.prompt(prompts).then(function(props) {
@@ -61,7 +66,9 @@ module.exports = Generator.extend({
 
 
         //java files
-        var options = { packageName: this.props.packageName, projectName: this.props.projectName };
+        var options = { packageName: this.props.packageName,
+                        projectName: this.props.projectName, 
+                        nameDatabase: this.props.nameDatabase};
 
         this.fs.copyTpl(
             this.templatePath('src/main/java/_App.java'),

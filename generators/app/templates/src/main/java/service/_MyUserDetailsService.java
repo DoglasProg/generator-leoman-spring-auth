@@ -1,4 +1,3 @@
-package service;
 package <%= packageName %>.service;
 
 import java.util.Collection;
@@ -19,7 +18,7 @@ public class MyUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public _MyUserDetailsService(UserRepository userRepository) {
+    public MyUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

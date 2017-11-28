@@ -1,4 +1,3 @@
-package entity;
 package <%= packageName %>.entity;
 
 import java.util.List;
@@ -16,17 +15,17 @@ public class UserAccess extends EntityGeneric {
 	@DBRef
 	private List<RoleAccess> roles;
 
-	public _UserAccess() {
+	public UserAccess() {
 	}
 
-	public _UserAccess(UserAccess user) {
+	public UserAccess(UserAccess user) {
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.passwordUser = user.getPasswordUser();
 		this.roles = user.getRoles();
 	}
 
-	public _UserAccess(String name, String email, String password, List<RoleAccess> perfis) {
+	public UserAccess(String name, String email, String password, List<RoleAccess> perfis) {
 		this.name = name;
 		this.email = email;
 		this.passwordUser = password;

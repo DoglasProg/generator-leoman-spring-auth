@@ -13,7 +13,7 @@ import org.springframework.web.filter.CorsFilter;
 public class <%= projectName %>App {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(<%= projectName %>App.class, args);
     }
 
     @Bean

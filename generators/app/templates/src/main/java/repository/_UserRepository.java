@@ -1,4 +1,3 @@
-package repository;
 package <%= packageName %>.repository;
 
 import java.util.List;

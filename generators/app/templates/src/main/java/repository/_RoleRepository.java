@@ -2,7 +2,7 @@ package <%= packageName %>.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import entity.RoleAccess;
+import <%= packageName %>.entity.RoleAccess;
 
 public interface RoleRepository extends MongoRepository<RoleAccess, String> {
 
