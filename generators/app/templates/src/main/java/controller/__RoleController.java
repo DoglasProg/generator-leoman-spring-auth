@@ -24,7 +24,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
-    public RoleAccess getById(@PathVariable String id) {
+    public RoleAccess getById(@PathVariable Long id) {
         return this.roleService.getById(id);
     }
 
@@ -39,7 +39,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role/{id}", method = RequestMethod.DELETE)
-    public void deletar(@PathVariable String id) {
+    public void deletar(@PathVariable Long id) {
         this.roleService.delete(id);
     }
 

@@ -6,11 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
-public class <%= resourceName %> extends EntityGeneric {
+@Entity
+public class <%= resourceName %> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 32, nullable = false)
     private String name;
     
     public Long getId() {

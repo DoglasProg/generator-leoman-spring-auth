@@ -41,7 +41,7 @@ public class <%= resourceName %>RestController {
     <% } %>  
     <% if (criarDELETE == true) { %>
     @RequestMapping(method = RequestMethod.DELETE, value = "/{<%= lowerResourceName %>Id}")
-    public void delete(@PathVariable String <%= lowerResourceName %>Id) {
+    public void delete(@PathVariable Long <%= lowerResourceName %>Id) {
         <%= lowerResourceName %>Repository.delete(<%= lowerResourceName %>Id);
     }
     <% } %> 
