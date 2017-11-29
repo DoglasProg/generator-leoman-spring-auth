@@ -1,5 +1,5 @@
 # generator-leoman-spring-auth
->Cria o esqueleto de um API REST desenvolvido com o Spring Boot, que usa o JWT para proteger a API
+>Cria o esqueleto de um API REST desenvolvido com o Spring Boot, que usa o OAUTH2 para proteger a API
 
 **Nota:**  Criamos este gerador com base neste exemplo
 (https://github.com/jlmonteagudo/generator-spring-rest-jwt) de José Luis Monteagudo. Obrigado José Luis.
@@ -30,6 +30,7 @@ Anonymous
 ```
 
 Existem três endpoints:
+
 ```
 /oauth 
 /user 
@@ -54,7 +55,7 @@ Se você quiser criar novos endpoints, você pode executar o seguinte comando de
 yo leoman-spring-auth:resource
 ```
 
-Isso gerará uma Entidade básica, um Repositório JPA e um Controlador REST com operações CRUD.
+Isso gerará uma Entidade básica, um Repositório, um Serviço e um Controlador REST com operações CRUD.
 
 ## License
 
