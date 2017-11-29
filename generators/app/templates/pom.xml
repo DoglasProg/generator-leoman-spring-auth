@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com</groupId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId> <%= packageName %> </groupId>
+	<version> <%= version %></version>
 	<packaging>war</packaging>
 
-	<name>leoman</name>
-	<description>project generate for leoman</description>
+	<name> <%= projectName %> </name>
+	<description> <%= description %> </description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -139,5 +139,5 @@
 	</build>
 
 
-	<artifactId>leoman</artifactId>
+	<artifactId><%= artifactId %></artifactId>
 </project>

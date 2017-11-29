@@ -10,7 +10,7 @@ module.exports = Generator.extend({
 
         //Cumprimenta ao usuário.
         this.log(yosay(
-            'Bem-vindo ao ' + chalk.red('L') +  chalk.green('E') + 'OMAN - O gerador de código Java com Spring + MongoDB ou Postgres + Autenticacao - Desenvolvido por: ' + chalk.red('L') + 'eydson Tavares e '+ chalk.green('E') + 'merson Cantalice - ' + chalk.blue('UNIFACISA!')
+            'Bem-vindo ao ' + chalk.red('L') + chalk.green('E') + 'OMAN - O gerador de código Java com Spring + MongoDB ou Postgres + Autenticacao - Desenvolvido por: ' + chalk.red('L') + 'eydson Tavares e ' + chalk.green('E') + 'merson Cantalice - ' + chalk.blue('UNIFACISA!')
         ));
 
         var prompts = [{
@@ -20,19 +20,40 @@ module.exports = Generator.extend({
             default: 'ProjectName'
         }, {
             type: 'input',
+            name: 'artifactId',
+            message: 'Nome do Artifact-id?',
+            default: 'leoman'
+        }, {
+            type: 'input',
             name: 'packageName',
-            message: 'Nome do Pacote?',
-            default: 'com.project'
+            message: 'Nome do Group-id?',
+            default: 'br.com.project'
+        }, {
+            type: 'input',
+            name: 'version',
+            message: 'Versão do Projeto',
+            default: '0.0.1'
+        }, {
+            type: 'input',
+            name: 'description',
+            message: 'Descrição do Projeto?',
+            default: 'project generate for leoman'
         }, {
             type: 'list',
             name: 'database',
             message: 'Qual banco de dados deseja usar?',
-            choices: [ "MongoDB", "Postgres" ],
+            choices: ["MongoDB", "Mongo Embbeded", "Postgres"],
             default: 'MongoDB'
         }, {
             type: 'input',
             name: 'nameDatabase',
             message: 'Qual o nome do schema do banco de dados?',
+            default: 'dataBaseName'
+        }, {
+            type: 'list',
+            name: 'typecache',
+            message: 'Qual gerenciamento de Cache deseja usar?',
+            choices: ["EhCache", "Hazelcast", "Nenhum cache"],
             default: 'teste'
         }];
 
@@ -43,6 +64,18 @@ module.exports = Generator.extend({
     },
 
     writing: function() {
+
+        //Arquivos Java
+        var options = {
+            packageName: this.props.packageName,
+            projectName: this.props.projectName,
+            nameDatabase: this.props.nameDatabase,
+            database: this.props.database,
+            artifactId: this.props.artifactId,
+            version: this.props.version,
+            description: this.props.description,
+            typecache: this.props.typecache
+        };
 
         var packagePath = this.props.packageName.replace(/\./g, '/');
 
@@ -63,23 +96,47 @@ module.exports = Generator.extend({
             this.destinationPath(this.props.projectName + '/mvnw.cmd')
         );
 
-        this.fs.copy(
-            this.templatePath('pom.xml'),
-            this.destinationPath(this.props.projectName + '/pom.xml')
-        );
-
-
-        //java files
-        var options = { packageName: this.props.packageName,
-                        projectName: this.props.projectName,
-                        nameDatabase: this.props.nameDatabase,
-                        database: this.props.database};
-
         this.fs.copyTpl(
-            this.templatePath('src/main/java/_App.java'),
-            this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
+            this.templatePath('pom.xml'),
+            this.destinationPath(this.props.projectName + '/pom.xml'),
             options
         );
+
+        // CACHE configuracao do gerenciaento de cache
+
+        // configuracao EhCache
+        if (this.props.typecache === "EhCache") {
+
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/___App.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
+                options
+            );
+
+            this.fs.copy(
+                this.templatePath('src/main/resources/ehcache.xml'),
+                this.destinationPath(this.props.projectName + 'src/main/resources/' + packagePath + '/resources/ehcache.xml')
+            );
+
+            // configuracao Hazelcast
+        } else if (this.props.typecache === "Hazelcast") {
+
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/__App.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
+                options
+            );
+
+            // configuracao sem gerenciamento de cache
+        } else {
+
+            this.fs.copyTpl(
+                this.templatePath('src/main/java/_App.java'),
+                this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/' + this.props.projectName + 'App.java'),
+                options
+            );
+
+        }
 
         // config - carga inicial
         this.fs.copyTpl(
@@ -151,29 +208,31 @@ module.exports = Generator.extend({
             options
         );
 
-
-        // repository - configuracao Repository
-
-        //this.fs.copyTpl(
-          //  this.templatePath('src/main/java/repository/_Repository.java'),
-          //  this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/Repository.java'),
-           // options
-        //);
-
-        if (this.props.database == "MongoDB") {
+        if (this.props.database === "MongoDB" || this.props.database === "Mongo Embbeded") {
             // repository - configuracao RoleRepository
             this.fs.copyTpl(
                 this.templatePath('src/main/java/repository/_RoleRepository.java'),
                 this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/RoleRepository.java'),
                 options
             );
-            
+
             // repository - configuracao UserRepository
             this.fs.copyTpl(
                 this.templatePath('src/main/java/repository/_UserRepository.java'),
                 this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/repository/UserRepository.java'),
                 options
             );
+
+            // configuracao especifica do Mongo Embbeded
+
+            if (this.props.database === "Mongo Embbeded") {
+                this.fs.copyTpl(
+                    this.templatePath('src/main/java/config/_MongoConfig.java'),
+                    this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/config/MongoConfig.java'),
+                    options
+                );
+
+            }
         } else {
             // repository - configuracao RoleRepository
             this.fs.copyTpl(
@@ -206,13 +265,6 @@ module.exports = Generator.extend({
             options
         );
 
-        // service - configuracao Service
-
-        //this.fs.copyTpl(
-          //  this.templatePath('src/main/java/service/_Service.java'),
-           // this.destinationPath(this.props.projectName + '/src/main/java/' + packagePath + '/service/Service.java'),
-           // options
-        //);
 
         // service - configuracao UserService
 
@@ -249,25 +301,6 @@ module.exports = Generator.extend({
 
         mkdirp.sync(this.props.projectName + '/src/main/resources/static/');
         mkdirp.sync(this.props.projectName + '/src/main/resources/templates/');
-
-
-        //webapp
-
-        // this.fs.copyTpl(
-        //     this.templatePath('src/main/webapp/'),
-        //     this.destinationPath(this.props.projectName + '/src/main/webapp/'),
-        //     options
-        // );
-
-        //test files
-
-        // this.fs.copyTpl(
-        //     this.templatePath('src/main/test/'),
-        //     this.destinationPath(this.props.projectName + '/src/main/test/'),
-        //     options
-        // );
-
-
 
     },
 
