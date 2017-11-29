@@ -19,7 +19,7 @@ Em seguida, gere seu novo projeto:
 yo generator-leoman-spring-auth
 ```
 
-## Usage
+## Uso
 
 Depois de criar seu projeto, você pode obter um token de acesso para as seguintes contas:
 
@@ -29,7 +29,7 @@ User - user:123
 Anonymous 
 ```
 
-Existem três endpoints que criam esse gerador:
+Existem três endpoints:
 ```
 /auth 
 /user 
