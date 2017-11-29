@@ -1,7 +1,8 @@
 package <%= packageName %>.config;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -17,7 +18,7 @@ import <%= packageName %>.repository.UserRepository;
 @Component
 public class InitialCharge implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
+   @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -28,7 +29,7 @@ public class InitialCharge implements ApplicationListener<ContextRefreshedEvent>
     public void onApplicationEvent(ContextRefreshedEvent e) {
     	
 
-        List<RoleAccess> roles = roleRepository.findAll();
+        List<RoleAccess> roles = (List<RoleAccess>) roleRepository.findAll();
 
         if (roles.isEmpty()) {
      
@@ -40,13 +41,13 @@ public class InitialCharge implements ApplicationListener<ContextRefreshedEvent>
             RoleAccess roleUser = roleRepository.findByName("ROLE_USER");
             RoleAccess roleAnonymous = roleRepository.findByName("ANONYMOUS");
 
-            List<RoleAccess> perfisAdmin = new ArrayList<>();
+            Set<RoleAccess> perfisAdmin = new HashSet<RoleAccess>();
             perfisAdmin.add(roleAdmin);
 
-            List<RoleAccess> perfisUser = new ArrayList<>();
+            Set<RoleAccess> perfisUser = new HashSet<RoleAccess>();
             perfisUser.add(roleUser);
 
-            List<RoleAccess> perfisAnonymous = new ArrayList<>();
+            Set<RoleAccess> perfisAnonymous = new HashSet<RoleAccess>();
             perfisAnonymous.add(roleAnonymous);
 
             userRepository.save(new UserAccess("admin", "admin@admin.com", "123", perfisAdmin));
@@ -56,5 +57,6 @@ public class InitialCharge implements ApplicationListener<ContextRefreshedEvent>
         }
 
     }
+
 
 }

@@ -1,70 +1,63 @@
-# generator-spring-rest-jwt
-> Creates the skeleton of an API REST developed with Spring Boot, that uses JWT to protect the API
+# generator-leoman-spring-auth
+>Cria o esqueleto de um API REST desenvolvido com o Spring Boot, que usa o JWT para proteger a API
 
-**Note:** I have created this generator based on this demo (https://github.com/szerhusenBC/jwt-spring-security-demo) of Stephan Zerhusen. Thanks Stephan.
+**Nota:**  Criamos este gerador com base neste exemplo
+(https://github.com/jlmonteagudo/generator-spring-rest-jwt) de José Luis Monteagudo. Obrigado José Luis.
 
-## Installation
+## Instalação
 
-First, install [Yeoman](http://yeoman.io) and generator-spring-rest-jwt using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+Primeiro, instale [Yeoman] (http://yeoman.io) e gerador-leoman-spring-auth usando [npm] (https://www.npmjs.com/) (assumimos que você pré-instalado [node.js] (https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-spring-rest-jwt
+npm install -g generator-leoman-spring-auth
 ```
 
-Then generate your new project:
+Em seguida, gere seu novo projeto:
 
 ```bash
-yo spring-rest-jwt
+yo generator-leoman-spring-auth
 ```
-
-## Video Tutorial (Spanish)
-
-[![Spring REST JWT](http://www.jlmonteagudo.com/wp-content/uploads/2017/01/spring-rest-jwt.png)](https://www.youtube.com/watch?v=XU_5YPCntqE)
-
 
 ## Usage
 
-Once you have created your project you can get an access token for the following accounts:
+Depois de criar seu projeto, você pode obter um token de acesso para as seguintes contas:
 
 ```
-Admin - admin:admin
-User - user:password
-Disabled - disabled:password (this user is disabled)
+Admin - admin:123
+User - user:123
+Anonymous 
 ```
 
-There are three endpoints that creates this generator:
+Existem três endpoints que criam esse gerador:
 ```
-/auth - authentication endpoint with unrestricted access
-/user - shows logged in user information
-/admin - an example endpoint that is restricted to authorized users with the role 'ROLE_ADMIN' (a valid JWT token must be present in the request header)
+/auth 
+/user 
+/role 
+
 ```
 
-If you want to get a token for admin, you have to send a POST request to the endpoint **/auth** with the following JSON in the body request:
+Se você quiser obter um token , você deve enviar uma solicitação POST para o endpoints:
 ```
 {
-    "username": "admin",
-    "password": "admin"
+    post Authorization = Basic Auth cliente - 123 http://localhost:8080/oauth/token?grant_type=password&username=admin&password=123
+
+    get token Authorization = No Auth Headers Authorization - Bearer <token>
 }
 ```
 
-Then you will get a token and you can use it passing it in your requests header:
-```
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXVkaWVuY2UiOiJ3ZWIiLCJjcmVhdGVkIjoxNDg0OTE4NjA2ODMwLCJleHAiOjE0ODU1MjM0MDZ9.ghLIqZM0wgWmL_a6_OGYjuwtaDUDbQaBFGndkfy2DNwDgu05vuoW_d6aS9iCNsi6Ajxjr8rOEYlV7QFALA9seQ
-```
+## Criando novos endpoints
 
-## Creating new endpoints
+Se você quiser criar novos endpoints, você pode executar o seguinte comando dentro da pasta do projeto:
 
-If you want to create new endpoints then you can run the following command inside the project folder:
 ```bash
-yo spring-rest-jwt:resource
+yo leoman-spring-auth:resource
 ```
 
-This will generate a basic Entity, a JPA Repository and a REST Controller with CRUD operations.
-
-**Note:** Currently, the code that is being generated is very basic and must be improved. For example, the generator is not handling exceptions, is not returning proper request codes, etc. It is very easy to improve it. You can fork this generator an adapat it to your needs, or you can send a pull request if you want.
-
+Isso gerará uma Entidade básica, um Repositório JPA e um Controlador REST com operações CRUD.
 
 ## License
 
-MIT © [Jose Luis Monteagudo](http://www.jlmonteagudo.com)
+UNIFACISA © [Leydson Tavares](https://github.com/LeydsonTavares)
+
+UNIFACISA © [Emerson Cantalice](https://github.com/emersoncantalice)

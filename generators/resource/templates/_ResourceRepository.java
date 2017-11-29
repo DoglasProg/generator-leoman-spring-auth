@@ -1,7 +1,10 @@
-package <%= packageName %>;
+package <%= packageName %>.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import <%= packageName %>.entity.<%= resourceName %>;
 
-public interface <%= resourceName %>Repository extends JpaRepository<<%= resourceName %>, Long> {
-    //User findByUsername(String username);
+public interface <%= resourceName %>Repository extends MongoRepository<<%= resourceName %>, String> {
+
+    <%= resourceName %> findByName(String name);
+
 }
