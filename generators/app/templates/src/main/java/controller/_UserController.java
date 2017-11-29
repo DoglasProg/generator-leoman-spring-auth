@@ -35,16 +35,6 @@ public class UserController {
         return this.userService.getById(id);
     }
 
-    @RequestMapping(value = "/user/{page}/{count}", method = RequestMethod.GET)
-    public Page<UserAccess> listaPaginada(@PathVariable int page, @PathVariable int count) {
-        return this.userService.listPaginated(count, page);
-    }
-
-    @RequestMapping(value = "/user/{name}/name", method = RequestMethod.GET)
-    public List<UserAccess> listaPaginada(@PathVariable String name) {
-        return this.userService.findByName(name);
-    }
-
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public UserAccess salvar(@RequestBody UserAccess user) {
         return this.userService.saveUser(user);

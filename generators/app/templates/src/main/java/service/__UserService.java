@@ -3,9 +3,6 @@ package <%= packageName %>.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import <%= packageName %>.entity.UserAccess;
@@ -18,12 +15,7 @@ public class UserService {
 	UserRepository userRepository;
 
 	public List<UserAccess> listUser() {
-		return userRepository.findAll();
-	}
-
-	public Page<UserAccess> listPaginated(int count, int page) {
-		Pageable pages = new PageRequest(page, count);
-		return userRepository.findAll(pages);
+		return (List<UserAccess>) userRepository.findAll();
 	}
 
 	public List<UserAccess> findByName(String name) {
@@ -34,11 +26,11 @@ public class UserService {
 		return userRepository.save(userAdd);
 	}
 
-	public void removeUser(String id) {
+	public void removeUser(Long id) {
 		userRepository.delete(id);
 	}
 
-	public UserAccess getById(String id) {
+	public UserAccess getById(Long id) {
 		return userRepository.findOne(id);
 	}
 

@@ -1,4 +1,3 @@
-package entity;
 package <%= packageName %>.entity;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +8,10 @@ public class RoleAccess extends EntityGeneric implements GrantedAuthority {
 
 	private String name;
 
-	public _RoleAccess() {
+	public RoleAccess() {
 	}
 
-	public _RoleAccess(String name) {
+	public RoleAccess(String name) {
 		this.name = name;
 	}
 

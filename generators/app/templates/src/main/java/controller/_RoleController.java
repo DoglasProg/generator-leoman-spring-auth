@@ -29,12 +29,6 @@ public class RoleController {
         return this.roleService.getById(id);
     }
 
-    @RequestMapping(value = "/role/{page}/{count}", method = RequestMethod.GET)
-    public Page<RoleAccess> listaPaginada(@PathVariable int page, @PathVariable int count) {
-        return this.roleService.listPaginated(count, page);
-    }
-
-
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     public RoleAccess salvar(@RequestBody RoleAccess role) {
         return this.roleService.save(role);
