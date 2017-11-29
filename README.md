@@ -31,7 +31,7 @@ Anonymous
 
 Existem três endpoints:
 ```
-/auth 
+/oauth 
 /user 
 /role 
 
