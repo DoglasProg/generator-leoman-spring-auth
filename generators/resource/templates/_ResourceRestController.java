@@ -1,4 +1,4 @@
-package <%= packageName %>;
+package <%= packageName %>.controller;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import <%= packageName %>.service.<%= resourceName %>Service;
 
 @RestController
 @RequestMapping("/<%= lowerResourceName %>")
-public class <%= resourceName %>RestController {
+public class <%= resourceName %>Controller {
 
     @Autowired
     private <%= resourceName %>Repository <%= lowerResourceName %>Repository;
